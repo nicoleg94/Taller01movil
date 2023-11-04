@@ -9,7 +9,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-
+    private double num1 = 0;
+    private double num2 = 0;
+    private String operacion = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
         Button botonX = findViewById(R.id.botonX);
         Button botonD = findViewById(R.id.botonD);
         TextView campoNumeros = findViewById(R.id.campoNumeros);
+        Button botonI = findViewById(R.id.botonI);
+        Button botonDel = findViewById(R.id.botonDel);
 
         boton1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,6 +92,79 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 campoNumeros.setText(campoNumeros.getText()+"0");
+            }
+        });
+
+        botonS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                num1 = Double.parseDouble(campoNumeros.getText().toString());
+                operacion = "+";
+                campoNumeros.append("+");
+            }
+        });
+
+        botonM.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                num1 = Double.parseDouble(campoNumeros.getText().toString());
+                operacion = "-";
+                campoNumeros.append("-");
+            }
+        });
+
+        botonX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                num1 = Double.parseDouble(campoNumeros.getText().toString());
+                operacion = "*";
+                campoNumeros.append("*");
+            }
+        });
+
+        botonD.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                num1 = Double.parseDouble(campoNumeros.getText().toString());
+                operacion = "/";
+                campoNumeros.append("/");
+            }
+        });
+
+        botonI.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String valoresIngresados = campoNumeros.getText().toString();
+                String[] valoresPartidos = valoresIngresados.split("\\Q" + operacion + "\\E");
+                if (valoresPartidos.length == 2) {
+                    num2 = Double.parseDouble(valoresPartidos[1]);
+                    double total = 0;
+                    if (operacion.equals("+")) {
+                        total = num1 + num2;
+                        campoNumeros.append("="+total);
+                    } else if (operacion.equals("-")) {
+                        total = num1 - num2;
+                        campoNumeros.append("="+total);
+                    } else if (operacion.equals("*")) {
+                        total = num1 * num2;
+                        campoNumeros.append("="+total);
+                    } else if (operacion.equals("/")) {
+                        if (num2 != 0) {
+                            total = num1 / num2;
+                            campoNumeros.append("="+total);
+                        } else {
+                            campoNumeros.setText("Error");
+                            return;
+                        }
+                    }
+                }
+            }
+        });
+
+        botonDel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                campoNumeros.setText("");
             }
         });
 
